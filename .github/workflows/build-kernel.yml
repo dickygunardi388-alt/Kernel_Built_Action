@@ -338,6 +338,43 @@ jobs:
         key: build-kernel-${{ env.DEVICE }}${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}
         max-size: 2G
 
+    - name: Fix MediaTek Type-C Compilation Error
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        echo "========================================"
+        echo "Menambal Makefile MTK Type-C agar mengabaikan error Clang..."
+        echo "========================================"
+        
+        TCPC_MAKE="drivers/misc/mediatek/typec/tcpc/Makefile"
+        TYPEC_MAKE="drivers/misc/mediatek/typec/Makefile"
+        
+        # Patch folder tcpc
+        if [ -f "$TCPC_MAKE" ]; then
+          sed -i 's/-Werror//g' "$TCPC_MAKE"
+          echo "ccflags-y += -Wno-error" >> "$TCPC_MAKE"
+          echo "ccflags-y += -Wno-incompatible-pointer-types" >> "$TCPC_MAKE"
+          echo "ccflags-y += -Wno-unused-variable" >> "$TCPC_MAKE"
+          echo "ccflags-y += -Wno-implicit-int" >> "$TCPC_MAKE"
+          echo "ccflags-y += -Wno-pointer-sign" >> "$TCPC_MAKE"
+          echo "ccflags-y += -Wno-unused-but-set-global" >> "$TCPC_MAKE"
+          echo "ccflags-y += -Wno-unused-but-set-variable" >> "$TCPC_MAKE"
+          echo "✅ Patch tcpc Makefile sukses"
+        else
+          echo "❌ Peringatan: File $TCPC_MAKE tidak ditemukan!"
+        fi
+        
+        # Patch folder typec parent
+        if [ -f "$TYPEC_MAKE" ]; then
+          sed -i 's/-Werror//g' "$TYPEC_MAKE"
+          echo "ccflags-y += -Wno-error" >> "$TYPEC_MAKE"
+          echo "ccflags-y += -Wno-incompatible-pointer-types" >> "$TYPEC_MAKE"
+          echo "ccflags-y += -Wno-unused-but-set-global" >> "$TYPEC_MAKE"
+          echo "✅ Patch typec parent Makefile sukses"
+        else
+          echo "❌ Peringatan: File $TYPEC_MAKE tidak ditemukan!"
+        fi
+
+
     - name: Build kernel
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
