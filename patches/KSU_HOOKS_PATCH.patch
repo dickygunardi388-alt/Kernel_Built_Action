@@ -129,17 +129,7 @@ index 873785dae022..a15f7f88abbb 100644
  	return error;
  }
  
-@@ -496,6 +512,9 @@ SYSCALL_DEFINE2(fstat64, unsigned long, fd, struct stat64 __user *, statbuf)
- 	if (!error)
- 		error = cp_new_stat64(&stat, statbuf);
- 
-+#ifdef CONFIG_KSU_MANUAL_HOOK // for 32-bit
-+	ksu_handle_fstat64_ret(&fd, &statbuf);
-+#endif
- 	return error;
- }
- 
-@@ -505,6 +524,9 @@ SYSCALL_DEFINE4(fstatat64, int, dfd, const char __user *, filename,
+@@ -505,6 +521,9 @@ SYSCALL_DEFINE4(fstatat64, int, dfd, const char __user *, filename,
  	struct kstat stat;
  	int error;
  
