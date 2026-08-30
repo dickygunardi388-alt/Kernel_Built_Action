@@ -27,9 +27,6 @@ index 5d5e417c2fa4..93ce05cca024 100644
  	char *pathbuf = NULL;
  	struct linux_binprm *bprm;
  	struct file *file;
-
- }
-
 diff --git a/fs/open.c b/fs/open.c
 index 3b62683fe332..741ee091747e 100644
 --- a/fs/open.c
@@ -52,9 +49,6 @@ index 3b62683fe332..741ee091747e 100644
 +
  	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
  		return -EINVAL;
-
- }
-
 diff --git a/fs/read_write.c b/fs/read_write.c
 index 0da6e4f19d7f..a05e05302930 100644
 --- a/fs/read_write.c
@@ -75,9 +69,6 @@ index 0da6e4f19d7f..a05e05302930 100644
  	ssize_t ret;
  
  	if (!(file->f_mode & FMODE_READ))
-
-}
-
 diff --git a/fs/stat.c b/fs/stat.c
 index 0fda4b6b8fb2..5e3aef49c291 100644
 --- a/fs/stat.c
@@ -100,9 +91,6 @@ index 0fda4b6b8fb2..5e3aef49c291 100644
  	if ((flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT |
  		       AT_EMPTY_PATH | KSTAT_QUERY_FLAGS)) != 0)
  		return -EINVAL;
-
-}
-
 diff --git a/drivers/input/input.c b/drivers/input/input.c
 index f9f3d6261dc5..bd0e39332f55 100644
 --- a/drivers/input/input.c
@@ -124,9 +112,6 @@ index f9f3d6261dc5..bd0e39332f55 100644
 +
  	if (disposition != INPUT_IGNORE_EVENT && type != EV_SYN)
  		add_input_randomness(type, code, value);
-
-}
-
 diff --git a/drivers/input/input.c b/drivers/input/input.c
 index bd0e39332f55..b81959837942 100644
 --- a/drivers/input/input.c
@@ -256,9 +241,6 @@ index 5e3aef49c291..7c4954e64adb 100644
  
  	if ((flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT |
  		       AT_EMPTY_PATH | KSTAT_QUERY_FLAGS)) != 0)
-
-}
-
 diff --git a/fs/devpts/inode.c b/fs/devpts/inode.c
 index 32f6f1c683d9..1cf42cbc4f00 100644
 --- a/fs/devpts/inode.c
