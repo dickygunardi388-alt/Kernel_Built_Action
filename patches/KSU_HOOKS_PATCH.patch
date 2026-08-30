@@ -41,7 +41,7 @@ index 3b62683fe332..741ee091747e 100644
  /*
   * access() needs to use the real uid/gid, not the effective uid/gid.
   * We do this by temporarily clearing all FS-related capabilities and
-@@ -369,6 +372,8 @@ SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
+@@ -369,5 +372,7 @@ SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
  	int res;
  	unsigned int lookup_flags = LOOKUP_FOLLOW;
  
@@ -95,7 +95,7 @@ diff --git a/drivers/input/input.c b/drivers/input/input.c
 index f9f3d6261dc5..bd0e39332f55 100644
 --- a/drivers/input/input.c
 +++ b/drivers/input/input.c
-@@ -377,11 +377,17 @@ static int input_get_disposition(struct input_dev *dev,
+@@ -377,10 +377,16 @@ static int input_get_disposition(struct input_dev *dev,
  	return disposition;
  }
  
