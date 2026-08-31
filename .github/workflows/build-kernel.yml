@@ -236,13 +236,12 @@ jobs:
     - name: Patch NoMount
       if: env.NOMOUNT_ENABLE == 'true'
       run: |
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-          curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -
+         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+         curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -
 
-          echo "CONFIG_NOMOUNT=y" >> ./arch/${{ env.KERNEL_ARCH }}/configs/${{ env.DEFCONFIG_NAME }}
-
-          echo "[+] Patched NoMount for your kernel successfully."
-          
+            echo "CONFIG_NOMOUNT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
+            echo "[+] Patched NoMount for your kernel successfully."
+         
     - name: Setup KernelSU
       if: env.ENABLE_KERNELSU == 'true'
       run: |
