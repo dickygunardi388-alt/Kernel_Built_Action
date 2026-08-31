@@ -261,24 +261,6 @@ jobs:
         else
             echo "SUSFS_PATCH_TO_4.14=false -> skip susfs_patch_to_4.14.patch"
         fi
-
-    - name: Apply SUSFS
-      if: env.APPLY_SUSFS == 'true'
-      run: |
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-          base="https://gitlab.com/simonpunk/susfs4ksu/-/raw/${SUSFS_REF}/kernel_patches"
-          curl -fLSs -o /tmp/50_add_susfs_in_kernel-4.14.patch "$base/50_add_susfs_in_kernel-4.14.patch"
-          patch -p1 --forward --reject-file=- < /tmp/50_add_susfs_in_kernel-4.14.patch || true
-          mkdir -p fs include/linux
-          curl -fLSs -o fs/susfs.c "$base/fs/susfs.c"
-          curl -fLSs -o fs/sus_su.c "$base/fs/sus_su.c"
-          curl -fLSs -o include/linux/susfs.h "$base/include/linux/susfs.h"
-          curl -fLSs -o include/linux/susfs_def.h "$base/include/linux/susfs_def.h"
-          curl -fLSs -o include/linux/sus_su.h "$base/include/linux/sus_su.h"
-          if [ -d KernelSU ]; then
-            curl -fLSs -o /tmp/10_enable_susfs_for_ksu.patch "$base/KernelSU/10_enable_susfs_for_ksu.patch"
-            (cd KernelSU && patch -p1 --forward < /tmp/10_enable_susfs_for_ksu.patch) || true
-          fi
         
     - name: Setup Configuration for kernel
       run: |
@@ -300,7 +282,7 @@ jobs:
                 echo "CONFIG_KPROBE_EVENTS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
             fi
         for config in CONFIG_KSU=y \
-                      CONFIG_KSU_SUSFS=y
+                      CONFIG_KSU_MANUAL_HOOK=y
 
         do
         echo "$config" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
