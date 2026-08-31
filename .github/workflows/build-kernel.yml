@@ -233,6 +233,16 @@ jobs:
             echo "HAVE_SOURCE_BOOT_IMAGE=true" >> $GITHUB_ENV
         fi
 
+    - name: Patch NoMount
+      if: env.NOMOUNT_ENABLE == 'true'
+      run: |
+          cd $GITHUB_WORKSPACE/device_kernel/
+          curl https://raw.githubusercontent.com/maxsteeel/nomount/refs/heads/dev/kernel/setup.sh | bash -
+
+          echo "CONFIG_NOMOUNT=y" >> ./arch/${{ env.KERNEL_ARCH }}/configs/${{ env.DEFCONFIG_NAME }}
+
+          echo "[+] Patched NoMount for your kernel successfully."
+          
     - name: Setup KernelSU
       if: env.ENABLE_KERNELSU == 'true'
       run: |
