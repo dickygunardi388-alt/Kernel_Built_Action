@@ -266,16 +266,16 @@ jobs:
         for config in CONFIG_KSU=y \
                       CONFIG_KSU_TAMPER_SYSCALL_TABLE=y \
                       CONFIG_KSU_SUSFS=y \
-                      CONFIG_KSU_SUSFS_SUS_PATH=y \
-                      CONFIG_KSU_SUSFS_SUS_MOUNT=y \
-                      CONFIG_KSU_SUSFS_SUS_KSTAT=y \
-                      CONFIG_KSU_SUSFS_SPOOF_UNAME=y \
-                      CONFIG_KSU_SUSFS_ENABLE_LOG=y \
-                      CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y \
-                      CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y \
-                      CONFIG_KSU_SUSFS_SUS_OVERLAYFS=y \
-                      CONFIG_KSU_SUSFS_OPEN_REDIRECT=y \
-                      CONFIG_KSU_SUSFS_SUS_MAP=y
+                      CONFIG_KSU_SUSFS_SUS_PATH \
+                      CONFIG_KSU_SUSFS_SUS_MOUNT \
+                      CONFIG_KSU_SUSFS_SUS_KSTAT \
+                      CONFIG_KSU_SUSFS_SUS_MAP \
+                      CONFIG_KSU_SUSFS_OPEN_REDIRECT \
+                      CONFIG_KSU_SUSFS_SPOOF_UNAME \
+                      CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG \
+                      CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS \
+                      CONFIG_KSU_SUSFS_ENABLE_LOG
+
         do
         echo "$config" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
         done
