@@ -7,7 +7,7 @@ on:
         required: true
         type: choice
         options:
-        - 'lancelot'
+        - 'selene'
         - 'merlin'
       build_ksun:
         description: 'Build KernelSU-Next A13+'
