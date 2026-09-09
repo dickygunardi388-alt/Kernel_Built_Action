@@ -63,7 +63,7 @@ index ae0a49517ba9..152671d7c088 100644
  /*
   * sys_execve() executes a new program.
   */
-@@ -1720,6 +1726,10 @@ static int do_execveat_common(int fd, struct filename *filename,
+@@ -1720,5 +1726,9 @@ static int do_execveat_common(int fd, struct filename *filename,
  	struct files_struct *displaced;
  	int retval;
  
