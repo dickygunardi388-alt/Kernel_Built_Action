@@ -73,7 +73,6 @@ index ae0a49517ba9..152671d7c088 100644
 +
  	if (IS_ERR(filename))
  		return PTR_ERR(filename);
- 
 diff --git a/fs/open.c b/fs/open.c
 index 3b62683fe332..09d38e67288e 100644
 --- a/fs/open.c
@@ -102,6 +101,31 @@ index 3b62683fe332..09d38e67288e 100644
  	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
  		return -EINVAL;
  
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 0da6e4f19d7f..50fe43936953 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -429,10 +429,20 @@ ssize_t kernel_read(struct file *file, void *buf, size_t count, loff_t *pos)
+ }
+ EXPORT_SYMBOL(kernel_read);
+ 
++// KernelSU hook
++#ifdef CONFIG_KSU
++extern int ksu_handle_vfs_read(struct file **file_ptr, char __user **buf_ptr,
++			       size_t *count_ptr, loff_t **pos);
++#endif
++
+ ssize_t vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos)
+ {
+ 	ssize_t ret;
+ 
++#ifdef CONFIG_KSU
++	ksu_handle_vfs_read(&file, &buf, &count, &pos);
++#endif
++
+ 	if (!(file->f_mode & FMODE_READ))
+ 		return -EBADF;
+ 	if (!(file->f_mode & FMODE_CAN_READ))
 diff --git a/fs/stat.c b/fs/stat.c
 index 0fda4b6b8fb2..e4cd17d7e865 100644
 --- a/fs/stat.c
