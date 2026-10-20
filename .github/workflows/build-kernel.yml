@@ -263,13 +263,7 @@ jobs:
                 echo "CONFIG_HAVE_KPROBES=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
                 echo "CONFIG_KPROBE_EVENTS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
             fi
-        for config in CONFIG_KSU=y \
-                      CONFIG_KSU_EXTRAS=y \
-                      CONFIG_KSU_TAMPER_SYSCALL_TABLE=y \
-                      CONFIG_KSU_THRONE_TRACKER_ALWAYS_THREADED=y
-        do
-        echo "$config" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
-        done
+
         fi
         if [ ${{ env.ADD_OVERLAYFS_CONFIG }} = true ]; then
             echo "CONFIG_OVERLAY_FS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${DEVICE}_defconfig
@@ -327,14 +321,6 @@ jobs:
       with:
         key: build-kernel-${{ env.DEVICE }}${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}
         max-size: 2G
-
-    - name: Fix try_umount for SUSFS 2.2.0
-      working-directory: <folder root kernel, sama dengan tempat setup.sh dijalankan>
-      run: |
-         F=KernelSU/kernel/supercall/supercall.c
-         grep -n "susfs_add_try_umount" "$F" || true
-         sed -i 's/susfs_add_try_umount(arg)/add_try_umount(arg)/' "$F"
-         grep -c "susfs_add_try_umount" "$F" || true
 
     - name: Build kernel
       run: |
